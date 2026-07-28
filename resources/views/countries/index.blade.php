@@ -4,81 +4,177 @@
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
 <li class="breadcrumb-item active">Countries</li>
 @endsection
+
+@push('styles')
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A1E2E; --surface:#102A3D; --surface-raised:#16374C; --line:#20415A;
+  --text:#EAF2F6; --text-dim:#7FA0B8;
+  --cyan:#3FD0C9; --amber:#F0A947; --coral:#EF5B5B; --coral-deep:#C23A3A;
+}
+.ctr-wrap{ font-family:'Inter',sans-serif; color:var(--text); }
+.ctr-eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--cyan); display:flex; align-items:center; gap:.5rem; margin-bottom:.3rem; }
+.ctr-eyebrow::before{ content:''; width:6px; height:6px; border-radius:50%; background:var(--cyan); box-shadow:0 0 0 3px rgba(63,208,201,.25); }
+.ctr-title{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.7rem; margin:0; }
+.ctr-count{ font-family:'IBM Plex Mono',monospace; font-size:.75rem; color:var(--text-dim); }
+
+/* Filter panel */
+.ctr-filter{ background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:1.1rem; margin-bottom:1.5rem; }
+.ctr-input-shell{ position:relative; }
+.ctr-input-shell i{ position:absolute; left:.9rem; top:50%; transform:translateY(-50%); color:var(--text-dim); font-size:.85rem; }
+.ctr-input{
+  width:100%; background:var(--ink); border:1px solid var(--line); color:var(--text); border-radius:10px;
+  padding:.6rem .8rem .6rem 2.2rem; font-family:'Inter',sans-serif; font-size:.85rem;
+}
+.ctr-input::placeholder{ color:var(--text-dim); }
+.ctr-input:focus, .ctr-select:focus{ outline:none; border-color:var(--cyan); box-shadow:0 0 0 3px rgba(63,208,201,.12); }
+.ctr-select{
+  width:100%; background:var(--ink); border:1px solid var(--line); color:var(--text); border-radius:10px;
+  padding:.6rem .8rem; font-family:'Inter',sans-serif; font-size:.85rem;
+}
+.ctr-select option{ background:var(--surface); }
+.ctr-filter-btn{
+  width:100%; background:var(--cyan); border:none; color:#04211E; font-family:'Space Grotesk',sans-serif;
+  font-weight:700; border-radius:10px; padding:.62rem; font-size:.85rem; transition:filter .15s, transform .15s;
+}
+.ctr-filter-btn:hover{ filter:brightness(1.08); transform:translateY(-1px); }
+
+/* Country stamp card */
+.ctr-card{
+  background:var(--surface); border:1px solid var(--line); border-radius:16px; overflow:hidden; cursor:pointer;
+  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease; height:100%; display:flex; flex-direction:column;
+  position:relative;
+}
+.ctr-card:hover{ transform:translateY(-4px); border-color:var(--cyan); box-shadow:0 14px 30px -16px rgba(63,208,201,.35); }
+.ctr-card-band{
+  position:absolute; left:0; top:0; bottom:0; width:4px;
+}
+.ctr-card-flagzone{
+  background:radial-gradient(circle at 30% 0%, #153a52 0%, var(--ink) 70%);
+  padding:1.5rem 1rem 1.1rem; text-align:center; border-bottom:1px solid var(--line);
+}
+.ctr-flag-big{ font-size:3.4rem; line-height:1; filter:drop-shadow(0 6px 14px rgba(0,0,0,.35)); }
+.ctr-card-body{ padding:1rem 1.1rem 1.1rem; flex:1; display:flex; flex-direction:column; }
+.ctr-name{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.05rem; text-align:center; margin:0 0 .2rem; }
+.ctr-meta{ font-family:'IBM Plex Mono',monospace; font-size:.68rem; color:var(--text-dim); text-align:center; margin-bottom:.7rem; }
+.ctr-code-chip{ background:var(--surface-raised); border:1px solid var(--line); border-radius:6px; padding:0 .35rem; }
+
+.ctr-region{ font-size:.76rem; color:var(--text-dim); display:flex; align-items:center; gap:.35rem; margin-bottom:.6rem; }
+.ctr-region i{ color:var(--cyan); }
+
+.ctr-risk-pill{
+  font-family:'IBM Plex Mono',monospace; font-size:.68rem; font-weight:600; padding:.3rem .6rem; border-radius:20px;
+  border:1px solid; display:inline-flex; align-items:center; gap:.35rem; align-self:flex-start;
+}
+.ctr-currency{ font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:var(--text-dim); margin-top:.6rem; display:flex; align-items:center; gap:.35rem; }
+.ctr-currency i{ color:var(--amber); }
+
+.ctr-card-footer{ padding:0 1.1rem 1.1rem; margin-top:auto; }
+.ctr-detail-btn{
+  display:flex; align-items:center; justify-content:center; gap:.4rem; width:100%; background:transparent;
+  border:1px solid var(--line); color:var(--text-dim); font-family:'Inter',sans-serif; font-size:.8rem; font-weight:500;
+  border-radius:10px; padding:.5rem; text-decoration:none; transition:border-color .15s, color .15s, background .15s;
+}
+.ctr-card:hover .ctr-detail-btn{ border-color:var(--cyan); color:var(--cyan); background:rgba(63,208,201,.06); }
+
+.ctr-empty{ text-align:center; color:var(--text-dim); padding:3.5rem 1rem; }
+.ctr-empty i{ font-size:2.4rem; opacity:.3; display:block; margin-bottom:.8rem; }
+
+.ctr-pagination{ margin-top:1.75rem; }
+.ctr-pagination .page-link{ background:var(--surface); border-color:var(--line); color:var(--text); }
+.ctr-pagination .page-link:hover{ background:var(--surface-raised); color:var(--cyan); }
+.ctr-pagination .page-item.active .page-link{ background:var(--cyan); border-color:var(--cyan); color:#04211E; }
+.ctr-pagination .page-item.disabled .page-link{ background:var(--surface); border-color:var(--line); color:var(--text-dim); }
+</style>
+@endpush
+
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <h4 class="mb-0 fw-bold"><i class="bi bi-globe me-2 text-primary"></i>Global Country Dashboard</h4>
-</div>
+<div class="ctr-wrap">
 
-<!-- Search & Filter -->
-<div class="card mb-4">
-  <div class="card-body">
-    <form method="GET" action="{{ route('countries.index') }}" class="row g-3">
-      <div class="col-md-5">
-        <div class="input-group">
-          <span class="input-group-text"><i class="bi bi-search"></i></span>
-          <input type="text" name="search" class="form-control" placeholder="Cari negara..." value="{{ request('search') }}">
-        </div>
-      </div>
-      <div class="col-md-4">
-        <select name="region" class="form-select">
-          <option value="">Semua Region</option>
-          @foreach($regions as $region)
-          <option value="{{ $region }}" {{ request('region')==$region?'selected':'' }}>{{ $region }}</option>
-          @endforeach
-        </select>
-      </div>
-      <div class="col-md-3">
-        <button type="submit" class="btn btn-primary w-100"><i class="bi bi-funnel me-1"></i>Filter</button>
-      </div>
-    </form>
+<div class="d-flex justify-content-between align-items-end mb-4 flex-wrap gap-2">
+  <div>
+    <div class="ctr-eyebrow">Global Directory</div>
+    <h1 class="ctr-title">Country Dashboard</h1>
   </div>
+  <div class="ctr-count">{{ $countries->total() ?? $countries->count() }} NEGARA TERDAFTAR</div>
 </div>
 
-<!-- Countries Grid -->
+<div class="ctr-filter">
+  <form method="GET" action="{{ route('countries.index') }}" class="row g-3 align-items-end">
+    <div class="col-md-5">
+      <div class="ctr-input-shell">
+        <i class="bi bi-search"></i>
+        <input type="text" name="search" class="ctr-input" placeholder="Cari negara..." value="{{ request('search') }}">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <select name="region" class="ctr-select">
+        <option value="">Semua Region</option>
+        @foreach($regions as $region)
+        <option value="{{ $region }}" {{ request('region')==$region?'selected':'' }}>{{ $region }}</option>
+        @endforeach
+      </select>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="ctr-filter-btn"><i class="bi bi-funnel me-1"></i>Filter</button>
+    </div>
+  </form>
+</div>
+
 <div class="row g-3">
   @forelse($countries as $country)
+  @php
+    $level = $country->latestRiskScore->risk_level ?? null;
+    [$riskColor,$riskBg] = match($level){
+      'low' => ['var(--cyan)','rgba(63,208,201,.10)'],
+      'medium' => ['var(--amber)','rgba(240,169,71,.10)'],
+      'high' => ['var(--coral)','rgba(239,91,91,.10)'],
+      'critical' => ['var(--coral-deep)','rgba(194,58,58,.14)'],
+      default => ['var(--text-dim)','rgba(127,160,184,.08)'],
+    };
+  @endphp
   <div class="col-sm-6 col-md-4 col-xl-3">
-    <div class="card h-100 country-card" style="cursor:pointer" onclick="window.location='{{ route('countries.show',$country->code) }}'">
-      <div class="card-body">
-        <div class="d-flex align-items-center gap-3 mb-3">
-          <span style="font-size:2rem">{{ $country->flag_emoji }}</span>
-          <div>
-            <div class="fw-bold">{{ $country->name }}</div>
-            <div class="text-muted small">{{ $country->capital }} · {{ $country->code }}</div>
-          </div>
-        </div>
-        <div class="small text-muted mb-2">
-          <i class="bi bi-geo-alt me-1"></i>{{ $country->region }}
-          @if($country->subregion) · {{ $country->subregion }}@endif
-        </div>
+    <div class="ctr-card" onclick="window.location='{{ route('countries.show',$country->code) }}'">
+      <div class="ctr-card-band" style="background:{{ $riskColor }}"></div>
+      <div class="ctr-card-flagzone">
+        <div class="ctr-flag-big">{{ $country->flag_emoji }}</div>
+      </div>
+      <div class="ctr-card-body">
+        <div class="ctr-name">{{ $country->name }}</div>
+        <div class="ctr-meta">{{ $country->capital }} · <span class="ctr-code-chip">{{ $country->code }}</span></div>
+
+        <div class="ctr-region"><i class="bi bi-geo-alt"></i>{{ $country->region }}@if($country->subregion) · {{ $country->subregion }}@endif</div>
+
         @if($country->latestRiskScore)
-        <div class="mt-2">
-          <span class="risk-{{ $country->latestRiskScore->risk_level }}">
-            {{ $country->latestRiskScore->risk_label }}: {{ number_format($country->latestRiskScore->total_score,1) }}
-          </span>
-        </div>
+        <span class="ctr-risk-pill" style="color:{{ $riskColor }};background:{{ $riskBg }};border-color:{{ $riskColor }}">
+          {{ $country->latestRiskScore->risk_label }} · {{ number_format($country->latestRiskScore->total_score,1) }}
+        </span>
         @endif
+
         @if($country->currency_code)
-        <div class="text-muted small mt-2"><i class="bi bi-currency-exchange me-1"></i>{{ $country->currency_code }}</div>
+        <div class="ctr-currency"><i class="bi bi-currency-exchange"></i>{{ $country->currency_code }}</div>
         @endif
       </div>
-      <div class="card-footer bg-transparent border-0 pt-0">
-        <a href="{{ route('countries.show',$country->code) }}" class="btn btn-sm btn-outline-primary w-100">
-          <i class="bi bi-eye me-1"></i>Lihat Detail
+      <div class="ctr-card-footer">
+        <a href="{{ route('countries.show',$country->code) }}" class="ctr-detail-btn" onclick="event.stopPropagation()">
+          <i class="bi bi-eye"></i>Lihat Detail
         </a>
       </div>
     </div>
   </div>
   @empty
-  <div class="col-12 text-center py-5 text-muted">
-    <i class="bi bi-search fs-1 mb-3 d-block opacity-25"></i>
-    Tidak ada negara ditemukan.
+  <div class="col-12">
+    <div class="ctr-empty">
+      <i class="bi bi-search"></i>
+      Tidak ada negara ditemukan.
+    </div>
   </div>
   @endforelse
 </div>
 
-<div class="mt-4">{{ $countries->withQueryString()->links() }}</div>
+<div class="ctr-pagination">{{ $countries->withQueryString()->links() }}</div>
+
+</div>
 @endsection
-@push('styles')
-<style>.country-card:hover{transform:translateY(-3px);transition:.2s;box-shadow:0 6px 20px rgba(0,0,0,.1)}</style>
-@endpush

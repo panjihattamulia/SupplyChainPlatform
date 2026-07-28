@@ -3,12 +3,85 @@
 <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>">Dashboard</a></li>
 <li class="breadcrumb-item active">Currency Impact</li>
 <?php $__env->stopSection(); ?>
+
+<?php $__env->startPush('styles'); ?>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A1E2E; --surface:#102A3D; --surface-raised:#16374C; --line:#20415A;
+  --text:#EAF2F6; --text-dim:#7FA0B8;
+  --gold:#F0B84B; --gold-dim:#C99A3E;
+  --up:#EF5B5B; --down:#3FD0C9;
+}
+.cid-wrap{ font-family:'Inter',sans-serif; color:var(--text); }
+.cid-eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:.5rem; margin-bottom:.3rem; }
+.cid-eyebrow::before{ content:''; width:6px; height:6px; border-radius:50%; background:var(--gold); box-shadow:0 0 0 3px rgba(240,184,75,.25); }
+.cid-title{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.6rem; margin:0; }
+
+.cid-base-form{ display:flex; align-items:center; gap:.6rem; }
+.cid-base-label{ font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--text-dim); }
+.cid-select{
+  background:var(--surface); border:1px solid var(--line); color:var(--text); border-radius:8px;
+  padding:.4rem .7rem; font-family:'IBM Plex Mono',monospace; font-size:.82rem;
+}
+.cid-select:focus{ outline:none; border-color:var(--gold); }
+.cid-select option{ background:var(--surface); }
+
+/* Stat strip */
+.cid-stat{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:1.1rem .8rem; text-align:center; transition:border-color .15s, transform .15s; }
+.cid-stat:hover{ border-color:var(--gold-dim); transform:translateY(-2px); }
+.cid-stat i{ font-size:1.4rem; }
+.cid-stat-value{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:1.5rem; margin-top:.4rem; color:var(--text); }
+.cid-stat-label{ font-family:'IBM Plex Mono',monospace; font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; color:var(--text-dim); margin-top:.15rem; }
+
+.cid-panel{ background:var(--surface); border:1px solid var(--line); border-radius:18px; overflow:hidden; margin-bottom:1.25rem; }
+.cid-panel-head{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--text-dim); padding:.9rem 1.1rem; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; gap:.5rem; flex-wrap:wrap; }
+.cid-panel-head i{ color:var(--gold); }
+.cid-panel-head span:first-child{ display:flex; align-items:center; }
+.cid-updated{ font-size:.68rem; color:var(--text-dim); }
+.cid-cache-badge{ font-family:'IBM Plex Mono',monospace; font-size:.6rem; background:rgba(240,184,75,.15); color:var(--gold); border:1px solid var(--gold-dim); border-radius:10px; padding:.1rem .5rem; margin-left:.35rem; }
+
+.cid-table-shell{ max-height:480px; overflow-y:auto; }
+.cid-table{ width:100%; border-collapse:collapse; font-family:'Inter',sans-serif; font-size:.85rem; }
+.cid-table thead th{
+  position:sticky; top:0; background:var(--surface-raised); font-family:'IBM Plex Mono',monospace; font-size:.62rem;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--text-dim); padding:.7rem .8rem; text-align:left; border-bottom:1px solid var(--line); z-index:1;
+}
+.cid-table thead th.text-end{ text-align:right; }
+.cid-table td{ padding:.65rem .8rem; border-bottom:1px solid var(--line); color:var(--text); vertical-align:middle; }
+.cid-table tr:hover td{ background:rgba(240,184,75,.04); }
+.cid-table tr:last-child td{ border-bottom:none; }
+.cid-code-chip{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:.75rem; background:var(--surface-raised); border:1px solid var(--line); border-radius:6px; padding:.15rem .5rem; }
+.cid-country{ color:var(--text-dim); font-size:.8rem; }
+.cid-rate{ font-family:'IBM Plex Mono',monospace; font-weight:600; text-align:right; }
+.cid-change{ font-family:'IBM Plex Mono',monospace; font-size:.78rem; text-align:right; font-weight:600; }
+.cid-change--up{ color:var(--up); } .cid-change--down{ color:var(--down); } .cid-change--flat{ color:var(--text-dim); }
+.cid-link{
+  font-family:'IBM Plex Mono',monospace; font-size:.68rem; color:var(--gold); border:1px solid var(--gold-dim);
+  border-radius:16px; padding:.2rem .6rem; text-decoration:none; white-space:nowrap; transition:background .15s;
+}
+.cid-link:hover{ background:rgba(240,184,75,.1); color:var(--gold); }
+
+.cid-quick-select{
+  background:var(--surface-raised); border:1px solid var(--line); color:var(--text); border-radius:8px;
+  padding:.35rem .6rem; font-family:'IBM Plex Mono',monospace; font-size:.78rem;
+}
+.cid-quick-select option{ background:var(--surface); }
+</style>
+<?php $__env->stopPush(); ?>
+
 <?php $__env->startSection('content'); ?>
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <h4 class="mb-0 fw-bold"><i class="bi bi-currency-exchange me-2 text-warning"></i>Currency Impact Dashboard</h4>
-  <form method="GET" class="d-flex gap-2 align-items-center">
-    <label class="small text-muted mb-0">Base:</label>
-    <select name="base" class="form-select form-select-sm" style="width:90px" onchange="this.form.submit()">
+<div class="cid-wrap">
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+  <div>
+    <div class="cid-eyebrow">Currency Terminal</div>
+    <h1 class="cid-title">Currency Impact Dashboard</h1>
+  </div>
+  <form method="GET" class="cid-base-form">
+    <label class="cid-base-label mb-0">Base</label>
+    <select name="base" class="cid-select" onchange="this.form.submit()">
       <?php $__currentLoopData = ['USD','EUR','JPY','GBP','CNY','SGD']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $b): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
       <option value="<?php echo e($b); ?>" <?php echo e($base===$b?'selected':''); ?>><?php echo e($b); ?></option>
       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -17,92 +90,111 @@
 </div>
 
 <div class="row g-3 mb-4">
-  <div class="col-6 col-md-3"><div class="card text-center"><div class="card-body py-3">
-    <i class="bi bi-currency-dollar fs-3 text-success"></i>
-    <div class="fw-bold fs-5 mt-1"><?php echo e($base); ?></div><div class="text-muted small">Base Currency</div>
-  </div></div></div>
-  <div class="col-6 col-md-3"><div class="card text-center"><div class="card-body py-3">
-    <i class="bi bi-bar-chart fs-3 text-primary"></i>
-    <div class="fw-bold fs-5 mt-1"><?php echo e(count($ratesData['rates']??[])); ?></div><div class="text-muted small">Mata Uang Dipantau</div>
-  </div></div></div>
-  <div class="col-6 col-md-3"><div class="card text-center"><div class="card-body py-3">
-    <i class="bi bi-arrow-up fs-3 text-danger"></i>
-    <div class="fw-bold fs-5 mt-1"><?php echo e($currencyRates->where('change_percent','>',0)->count()); ?></div><div class="text-muted small">Menguat vs Kemarin</div>
-  </div></div></div>
-  <div class="col-6 col-md-3"><div class="card text-center"><div class="card-body py-3">
-    <i class="bi bi-arrow-down fs-3 text-success"></i>
-    <div class="fw-bold fs-5 mt-1"><?php echo e($currencyRates->where('change_percent','<',0)->count()); ?></div><div class="text-muted small">Melemah vs Kemarin</div>
-  </div></div></div>
+  <div class="col-6 col-md-3">
+    <div class="cid-stat">
+      <i class="bi bi-currency-dollar" style="color:var(--gold)"></i>
+      <div class="cid-stat-value"><?php echo e($base); ?></div>
+      <div class="cid-stat-label">Base Currency</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="cid-stat">
+      <i class="bi bi-bar-chart" style="color:#5EA8E0"></i>
+      <div class="cid-stat-value"><?php echo e(count($ratesData['rates']??[])); ?></div>
+      <div class="cid-stat-label">Mata Uang Dipantau</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="cid-stat">
+      <i class="bi bi-arrow-up" style="color:var(--up)"></i>
+      <div class="cid-stat-value" style="color:var(--up)"><?php echo e($currencyRates->where('change_percent','>',0)->count()); ?></div>
+      <div class="cid-stat-label">Menguat vs Kemarin</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="cid-stat">
+      <i class="bi bi-arrow-down" style="color:var(--down)"></i>
+      <div class="cid-stat-value" style="color:var(--down)"><?php echo e($currencyRates->where('change_percent','<',0)->count()); ?></div>
+      <div class="cid-stat-label">Melemah vs Kemarin</div>
+    </div>
+  </div>
 </div>
 
 <div class="row g-4">
   <div class="col-lg-7">
-    <div class="card">
-      <div class="card-header d-flex justify-content-between">
-        <span><i class="bi bi-table me-2 text-warning"></i>Kurs Real-Time (1 <?php echo e($base); ?>)</span>
-        <small class="text-muted"><?php echo e($ratesData['last_updated']??now()->format('d M Y H:i')); ?>
+    <div class="cid-panel mb-0">
+      <div class="cid-panel-head">
+        <span><i class="bi bi-table me-2"></i>Kurs Real-Time (1 <?php echo e($base); ?>)</span>
+        <span class="cid-updated">
+          <?php echo e($ratesData['last_updated']??now()->format('d M Y H:i')); ?>
 
-          <?php if(($ratesData['source']??'')==='database'): ?><span class="badge bg-warning ms-1 text-dark" style="font-size:.62rem">Cache</span><?php endif; ?>
-        </small>
+          <?php if(($ratesData['source']??'')==='database'): ?><span class="cid-cache-badge">CACHE</span><?php endif; ?>
+        </span>
       </div>
-      <div class="card-body p-0">
-        <div class="table-responsive" style="max-height:480px;overflow-y:auto">
-          <table class="table table-hover mb-0">
-            <thead class="table-light sticky-top">
-              <tr><th>Mata Uang</th><th>Negara</th><th class="text-end">Kurs</th><th class="text-end">Perubahan</th><th></th></tr>
-            </thead>
-            <tbody>
-              <?php $__currentLoopData = $ratesData['rates']??[]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cur=>$rate): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-              <?php
-              $rec=$currencyRates->where('target_currency',$cur)->first();
-              $ch=$rec?->change_percent;
-              $ti=$ch>0?'↑':($ch<0?'↓':'→');
-              $tc=$ch>0?'text-danger':($ch<0?'text-success':'text-secondary');
-              $cnt=$countries->firstWhere('currency_code',$cur);
-              ?>
-              <tr>
-                <td><span class="badge bg-light text-dark border fw-bold"><?php echo e($cur); ?></span></td>
-                <td class="small"><?php echo e($cnt?$cnt->flag_emoji.' '.$cnt->name:'—'); ?></td>
-                <td class="text-end fw-semibold"><?php echo e(number_format($rate,$rate<1?6:2)); ?></td>
-                <td class="text-end <?php echo e($tc); ?> small"><?php echo e($ti); ?> <?php echo e($ch!==null?number_format(abs($ch),2).'%':'—'); ?></td>
-                <td><?php if($cnt): ?><a href="<?php echo e(route('currency.show',$cnt->code)); ?>" class="btn btn-xs btn-outline-primary" style="font-size:.7rem;padding:2px 8px">Grafik</a><?php endif; ?></td>
-              </tr>
-              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            </tbody>
-          </table>
-        </div>
+      <div class="cid-table-shell">
+        <table class="cid-table">
+          <thead>
+            <tr><th>Mata Uang</th><th>Negara</th><th class="text-end">Kurs</th><th class="text-end">Perubahan</th><th></th></tr>
+          </thead>
+          <tbody>
+            <?php $__currentLoopData = $ratesData['rates']??[]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cur=>$rate): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php
+            $rec=$currencyRates->where('target_currency',$cur)->first();
+            $ch=$rec?->change_percent;
+            $ti=$ch>0?'↑':($ch<0?'↓':'→');
+            $tc=$ch>0?'cid-change--up':($ch<0?'cid-change--down':'cid-change--flat');
+            $cnt=$countries->firstWhere('currency_code',$cur);
+            ?>
+            <tr>
+              <td><span class="cid-code-chip"><?php echo e($cur); ?></span></td>
+              <td class="cid-country"><?php echo e($cnt?$cnt->flag_emoji.' '.$cnt->name:'—'); ?></td>
+              <td class="cid-rate"><?php echo e(number_format($rate,$rate<1?6:2)); ?></td>
+              <td class="cid-change <?php echo e($tc); ?>"><?php echo e($ti); ?> <?php echo e($ch!==null?number_format(abs($ch),2).'%':'—'); ?></td>
+              <td><?php if($cnt): ?><a href="<?php echo e(route('currency.show',$cnt->code)); ?>" class="cid-link">Grafik</a><?php endif; ?></td>
+            </tr>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 
   <div class="col-lg-5">
-    <div class="card mb-4">
-      <div class="card-header fw-semibold small"><i class="bi bi-bar-chart-fill me-2 text-warning"></i>Perubahan Kurs Terbesar</div>
-      <div class="card-body"><canvas id="changeChart" height="220"></canvas></div>
+    <div class="cid-panel">
+      <div class="cid-panel-head"><span><i class="bi bi-bar-chart-fill me-2"></i>Perubahan Kurs Terbesar</span></div>
+      <div class="p-3"><canvas id="changeChart" height="220"></canvas></div>
     </div>
-    <div class="card">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <span class="small fw-semibold"><i class="bi bi-graph-up me-2 text-warning"></i>Tren Kurs</span>
-        <select id="qCur" class="form-select form-select-sm" style="width:90px" onchange="loadQ()">
+    <div class="cid-panel mb-0">
+      <div class="cid-panel-head">
+        <span><i class="bi bi-graph-up me-2"></i>Tren Kurs</span>
+        <select id="qCur" class="cid-quick-select" onchange="loadQ()">
           <?php $__currentLoopData = $countries->whereNotNull('currency_code'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $c): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
           <?php if($c->currency_code!==$base): ?><option value="<?php echo e($c->code); ?>"><?php echo e($c->currency_code); ?></option><?php endif; ?>
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </select>
       </div>
-      <div class="card-body"><canvas id="quickChart" height="150"></canvas></div>
+      <div class="p-3"><canvas id="quickChart" height="150"></canvas></div>
     </div>
   </div>
 </div>
+</div>
 <?php $__env->stopSection(); ?>
+
 <?php $__env->startPush('scripts'); ?>
 <script>
+const gridColor='rgba(255,255,255,.06)', tickColor='#7FA0B8', fontMono={family:'IBM Plex Mono',size:10};
+
 const cr=<?php echo json_encode($currencyRates??[], 15, 512) ?>;
 const sorted=cr.filter(r=>r.change_percent!==null).sort((a,b)=>Math.abs(b.change_percent)-Math.abs(a.change_percent)).slice(0,10);
 new Chart(document.getElementById('changeChart').getContext('2d'),{
   type:'bar',
-  data:{labels:sorted.map(r=>r.target_currency),datasets:[{data:sorted.map(r=>r.change_percent),backgroundColor:sorted.map(r=>r.change_percent>0?'rgba(220,53,69,.7)':'rgba(25,135,84,.7)'),borderRadius:4}]},
-  options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>v.toFixed(2)+'%'}}}}
+  data:{labels:sorted.map(r=>r.target_currency),datasets:[{data:sorted.map(r=>r.change_percent),backgroundColor:sorted.map(r=>r.change_percent>0?'rgba(239,91,91,.75)':'rgba(63,208,201,.75)'),borderRadius:4}]},
+  options:{responsive:true,plugins:{legend:{display:false}},scales:{
+    y:{ticks:{callback:v=>v.toFixed(2)+'%',color:tickColor,font:fontMono},grid:{color:gridColor}},
+    x:{ticks:{color:tickColor,font:fontMono},grid:{display:false}}
+  }}
 });
+
 let qC=null;
 function loadQ(){
   const code=document.getElementById('qCur').value;
@@ -112,15 +204,21 @@ function loadQ(){
     hideSpinner();
     const t=data.trend||{};
     if(qC)qC.destroy();
-    qC=new Chart(document.getElementById('quickChart').getContext('2d'),{
+    const ctx=document.getElementById('quickChart').getContext('2d');
+    const grad=ctx.createLinearGradient(0,0,0,150);
+    grad.addColorStop(0,'rgba(240,184,75,.25)');
+    grad.addColorStop(1,'rgba(240,184,75,0)');
+    qC=new Chart(ctx,{
       type:'line',
-      data:{labels:t.labels||[],datasets:[{label:(data.target||'')+'/'+data.base,data:t.rates||[],borderColor:'#ffc107',backgroundColor:'rgba(255,193,7,.1)',tension:.4,fill:true,pointRadius:0}]},
-      options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{ticks:{maxTicksLimit:5}}}}
+      data:{labels:t.labels||[],datasets:[{label:(data.target||'')+'/'+data.base,data:t.rates||[],borderColor:'#F0B84B',backgroundColor:grad,tension:.4,fill:true,pointRadius:0}]},
+      options:{responsive:true,plugins:{legend:{display:false}},scales:{
+        y:{ticks:{maxTicksLimit:5,color:tickColor,font:fontMono},grid:{color:gridColor}},
+        x:{ticks:{color:tickColor,font:fontMono},grid:{display:false}}
+      }}
     });
   }).catch(()=>hideSpinner());
 }
 if(document.getElementById('qCur').options.length>0)loadQ();
 </script>
 <?php $__env->stopPush(); ?>
-
 <?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\laragon\www\Global Supply\supply-chain-platform\resources\views/currency/index.blade.php ENDPATH**/ ?>
