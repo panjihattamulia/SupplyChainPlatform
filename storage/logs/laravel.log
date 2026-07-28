@@ -2162,3 +2162,23 @@
 [2026-07-28 21:36:30] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
 [2026-07-28 21:36:42] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
 [2026-07-28 22:32:26] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:17:23] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:17:29] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:17:39] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:18:03] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:18:05] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:18:06] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:18:11] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/EUR  
+[2026-07-29 03:18:12] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:18:14] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:23:03] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:23:03] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:23:07] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:23:08] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:23:26] local.ERROR: [worldbank] cURL error 28: Operation timed out after 4008 milliseconds with 0 bytes received (see https://curl.se/libcurl/c/libcurl-errors.html) for https://api.worldbank.org/v2/country/AE/indicator/NY.GDP.MKTP.CD?format=json&date=2021%3A2025&per_page=5  
+[2026-07-29 03:23:30] local.ERROR: [worldbank] cURL error 28: Operation timed out after 4017 milliseconds with 0 bytes received (see https://curl.se/libcurl/c/libcurl-errors.html) for https://api.worldbank.org/v2/country/AE/indicator/FP.CPI.TOTL.ZG?format=json&date=2021%3A2025&per_page=5  
+[2026-07-29 03:23:31] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:23:49] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:23:49] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:23:54] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  
+[2026-07-29 03:24:10] local.WARNING: [exchangerate] HTTP 404 → https://v6.exchangerate-api.com/v6/your_exchangerate_api_key_here/latest/USD  

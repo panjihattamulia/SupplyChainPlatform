@@ -24,7 +24,10 @@ class OpenMeteoService extends BaseApiService
                 'current'   => 'temperature_2m,apparent_temperature,precipitation,windspeed_10m,windgusts_10m,weathercode,cloudcover,relativehumidity_2m',
                 'timezone'  => 'auto', 'forecast_days' => 1,
             ]);
-            if (!$data || !isset($data['current'])) return null;
+            if (!$data || !isset($data['current'])) {
+                $cached = WeatherCache::where('country_code',$code)->first();
+                return $cached ? $cached->toArray() : null;
+            }
             $c     = $data['current'];
             $wind  = (float)($c['windspeed_10m'] ?? 0);
             $gust  = (float)($c['windgusts_10m'] ?? 0);

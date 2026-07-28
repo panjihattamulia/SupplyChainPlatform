@@ -10,7 +10,7 @@ abstract class BaseApiService
 {
     protected string $apiName = 'unknown';
     protected string $baseUrl = '';
-    protected int $timeout    = 15;
+    protected int $timeout    = 4;
 
     protected function get(string $endpoint, array $params=[]): ?array
     {

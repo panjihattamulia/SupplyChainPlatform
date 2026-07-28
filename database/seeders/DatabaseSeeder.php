@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminUserSeeder::class,
             CountriesSeeder::class,
+            EconomicIndicatorsSeeder::class,
             PortsSeeder::class,
             PositiveWordsSeeder::class,
             NegativeWordsSeeder::class,

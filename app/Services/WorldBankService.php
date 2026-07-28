@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\EconomicIndicator;
 use App\Models\SystemSetting;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\Pool;
 
 /**
  * World Bank API — Gratis, tanpa API Key
@@ -30,10 +32,45 @@ class WorldBankService extends BaseApiService
         $hours = SystemSetting::get('cache_worldbank_hours', 24);
         return Cache::remember($this->cacheKey('indicators',$code), $hours*3600, function () use ($code) {
             $year = (int)date('Y') - 1;
-            $data = [];
-            foreach (self::INDICATORS as $key => $indicator) {
-                $data[$key] = $this->fetchIndicator($code, $indicator, $year);
+            
+            // Check DB fallback first
+            $dbModel = EconomicIndicator::where('country_code', strtoupper($code))->orderByDesc('year')->first();
+            $dbData  = $dbModel ? [
+                'gdp' => $dbModel->gdp ? (float)$dbModel->gdp : null,
+                'gdp_per_cap' => $dbModel->gdp_per_capita ? (float)$dbModel->gdp_per_capita : null,
+                'inflation' => $dbModel->inflation_rate ? (float)$dbModel->inflation_rate : null,
+                'unemployment' => $dbModel->unemployment_rate ? (float)$dbModel->unemployment_rate : null,
+                'population' => $dbModel->population ? (int)$dbModel->population : null,
+                'exports' => $dbModel->exports_usd ? (float)$dbModel->exports_usd : null,
+                'imports' => $dbModel->imports_usd ? (float)$dbModel->imports_usd : null,
+            ] : [];
+
+            try {
+                $responses = Http::pool(fn (Pool $pool) => [
+                    'gdp'          => $pool->timeout(4)->get("{$this->baseUrl}/country/{$code}/indicator/" . self::INDICATORS['gdp'], ['format'=>'json','date'=>"{$year}:{$year}",'per_page'=>1]),
+                    'gdp_per_cap'  => $pool->timeout(4)->get("{$this->baseUrl}/country/{$code}/indicator/" . self::INDICATORS['gdp_per_cap'], ['format'=>'json','date'=>"{$year}:{$year}",'per_page'=>1]),
+                    'inflation'    => $pool->timeout(4)->get("{$this->baseUrl}/country/{$code}/indicator/" . self::INDICATORS['inflation'], ['format'=>'json','date'=>"{$year}:{$year}",'per_page'=>1]),
+                    'unemployment' => $pool->timeout(4)->get("{$this->baseUrl}/country/{$code}/indicator/" . self::INDICATORS['unemployment'], ['format'=>'json','date'=>"{$year}:{$year}",'per_page'=>1]),
+                    'population'   => $pool->timeout(4)->get("{$this->baseUrl}/country/{$code}/indicator/" . self::INDICATORS['population'], ['format'=>'json','date'=>"{$year}:{$year}",'per_page'=>1]),
+                    'exports'      => $pool->timeout(4)->get("{$this->baseUrl}/country/{$code}/indicator/" . self::INDICATORS['exports'], ['format'=>'json','date'=>"{$year}:{$year}",'per_page'=>1]),
+                    'imports'      => $pool->timeout(4)->get("{$this->baseUrl}/country/{$code}/indicator/" . self::INDICATORS['imports'], ['format'=>'json','date'=>"{$year}:{$year}",'per_page'=>1]),
+                ]);
+
+                $data = [];
+                foreach (self::INDICATORS as $key => $ind) {
+                    $val = null;
+                    if (isset($responses[$key]) && $responses[$key]->successful()) {
+                        $json = $responses[$key]->json();
+                        if (isset($json[1][0]['value']) && $json[1][0]['value'] !== null) {
+                            $val = (float)$json[1][0]['value'];
+                        }
+                    }
+                    $data[$key] = $val ?? ($dbData[$key] ?? null);
+                }
+            } catch (\Throwable $e) {
+                $data = $dbData;
             }
+
             if (!empty(array_filter($data))) {
                 $tb = ($data['exports'] && $data['imports']) ? $data['exports'] - $data['imports'] : null;
                 EconomicIndicator::updateOrCreate(
@@ -41,7 +78,7 @@ class WorldBankService extends BaseApiService
                     ['gdp'=>$data['gdp'],'gdp_per_capita'=>$data['gdp_per_cap'],'inflation_rate'=>$data['inflation'],'unemployment_rate'=>$data['unemployment'],'population'=>$data['population']??(null),'exports_usd'=>$data['exports'],'imports_usd'=>$data['imports'],'trade_balance'=>$tb,'fetched_at'=>now()]
                 );
             }
-            return $data;
+            return array_merge($dbData, array_filter($data, fn($v)=>$v!==null));
         });
     }
 
