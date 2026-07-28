@@ -19,10 +19,12 @@ if [ "$APP_ENV" = "production" ]; then
     php artisan view:cache || true
 fi
 
-# Run database migrations automatically
+# Run database migrations and seeders automatically
 if [ "$SKIP_MIGRATIONS" != "true" ]; then
     echo "Running database migrations..."
     php artisan migrate --force || echo "Migration skipped or failed."
+    echo "Seeding initial database data..."
+    php artisan db:seed --force || echo "Seeding skipped or failed."
 fi
 
 # Start PHP-FPM in background
